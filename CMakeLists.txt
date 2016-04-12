@@ -4,7 +4,7 @@ project(tinyrenderer)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
-    src/main.cc)
+    src/main.cc src/point.h src/point.cpp src/sdl_context_2d.cc src/sdl_context_2d.h)
 
 add_executable(tinyrenderer ${SOURCE_FILES})
 
