@@ -1,5 +1,8 @@
-#include <SDL.h>
+#include <algorithm>
 #include <iostream>
+
+#include <SDL.h>
+
 #include "sdl_context_2d.h"
 #include "third_party/tiny_obj_loader.h"
 #include "polygon3D.h"
@@ -62,11 +65,16 @@ int main(int argc, char* args[]) {
         auto points = face.points();
         for (auto i = 0; i < points.size(); i++) {
             auto from = points[i];
-            auto to = points[i % points.size()];
-            context.Line(
-                (from.x() + 0.5) * width, (-from.y() + 0.5) * height,
-                (to.x() + 0.5) * width, (-from.y() + 0.5) * height,
-                0xFFFF0000);
+            auto to = points[(i + 1) % points.size()];
+
+            auto scale = 3;
+
+            auto x0 = scale * from.x() * width + width / 2;
+            auto y0 = -scale * from.y() * height + height / 2;
+            auto x1 = scale * to.x() * width + width / 2;
+            auto y1 = -scale * to.y() * height + height / 2;
+
+            context.Line(x0, y0, x1, y1, 0xFFFF0000);
         }
 
     }

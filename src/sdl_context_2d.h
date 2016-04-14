@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <algorithm>
 #include <cmath>
+#include <cassert>
 
 class SdlContext2D {
 public:
@@ -17,11 +18,14 @@ public:
         delete[] pixels_;
     };
 
-    void SetColor(Uint32 x, Uint32 y, Uint32 color) {
+    void SetColor(int x, int y, Uint32 color) {
+        if (x < 0 || x >= width_ || y < 0 || y >= height_) {
+            return;
+        }
         pixels_[y * width_ + x] = color;
     };
 
-    void Line(Uint32 x0, Uint32 y0, Uint32 x1, Uint32 y1, Uint32 color);
+    void Line(int x0, int y0, int x1, int y1, Uint32 color);
 
     void Paint(SDL_Texture* texture) {
         SDL_UpdateTexture(texture, NULL, pixels_, width_ * sizeof(Uint32));
