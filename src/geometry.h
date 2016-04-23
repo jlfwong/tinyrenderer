@@ -17,16 +17,6 @@ public:
         }
     }
 
-    // Only implemented for 2D vectors
-    Vec(T x, T y);
-
-    // Only implemented for 3D vectors
-    Vec(T x, T y, T z);
-
-    const T& x() const;
-    const T& y() const;
-    const T& z() const;
-
     const T& operator[](const size_t i) const {
         assert(i < DIM);
         return data_[i];
@@ -34,51 +24,52 @@ public:
 
     const T dot(Vec<DIM, T> other) const {
         T ret = T();
-        for (size_t i = 0; i <= DIM; i++) {
-            ret += this[i] * other[i];
+        for (size_t i = 0; i < DIM; i++) {
+            ret += data_[i] * other[i];
         }
         return ret;
     }
 
-private:
+protected:
     T data_[DIM];
 };
 
-// Specialization for 2D vectors
-template <typename T> Vec<2, T>::Vec(T x, T y) {
-    data_[0] = x;
-    data_[1] = y;
-}
-template <typename T> const T& Vec<2, T>::x() const {
-    return data_[0];
-}
-template <typename T> const T& Vec<2, T>::y() const {
-    return data_[1];
-}
+template <typename T> class Vec2 : public Vec<2, T> {
+public:
+    Vec2(T x, T y) {
+        data_[0] = x;
+        data_[1] = y;
+    }
 
-// Specialization for 3D vectors
-template <typename T> Vec<3, T>::Vec(T x, T y, T z) {
-    data_[0] = x;
-    data_[1] = y;
-    data_[2] = z;
-}
-template <typename T> const T& Vec<3, T>::x() const {
-    return data_[0];
-}
-template <typename T> const T& Vec<3, T>::y() const {
-    return data_[1];
-}
-template <typename T> const T& Vec<3, T>::z() const {
-    return data_[2];
-}
+    const T& x() const { return data_[0]; }
+    const T& y() const { return data_[1]; }
 
+private:
+    using Vec<2, T>::data_;
+};
+
+template <typename T> class Vec3 : public Vec<3, T> {
+public:
+    Vec3(T x, T y, T z) {
+        data_[0] = x;
+        data_[1] = y;
+        data_[2] = z;
+    }
+
+    const T& x() const { return data_[0]; }
+    const T& y() const { return data_[1]; }
+    const T& z() const { return data_[2]; }
+
+private:
+    using Vec<3, T>::data_;
+};
 
 
 // Type aliases for vectors
 
-typedef Vec<2, float> Vec2f;
-typedef Vec<2, int> Vec2i;
-typedef Vec<3, float> Vec3f;
-typedef Vec<3, int> Vec3i;
+typedef Vec2<float> Vec2f;
+typedef Vec2<int> Vec2i;
+typedef Vec3<float> Vec3f;
+typedef Vec3<int> Vec3i;
 
 #endif //TINYRENDERER_GEOMETRY_H
