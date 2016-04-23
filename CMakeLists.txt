@@ -3,18 +3,7 @@ project(tinyrenderer)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES
-        src/point3d.h
-        src/point3d.cpp
-        src/sdl_context_2d.cc
-        src/sdl_context_2d.h
-        src/third_party/tiny_obj_loader.cc
-        src/third_party/tiny_obj_loader.h
-        src/polygon3D.cc
-        src/polygon3D.h
-        src/geometry.cc
-        src/geometry.h src/test_main.cc)
-
+set(SOURCE_FILES src/sdl_context_2d.cc src/sdl_context_2d.h src/third_party/tiny_obj_loader.cc src/third_party/tiny_obj_loader.h src/vec.cc src/vec.h src/mesh.cc src/mesh.h)
 add_executable(tinyrenderer src/main.cc ${SOURCE_FILES})
 
 find_package(sdl2 REQUIRED)
@@ -32,9 +21,7 @@ target_link_libraries(tinyrenderer ${SDL2_LIBRARIES})
 # Unit Tests
 ##############
 
-set(TEST_FILES
-        src/test_main.cc
-        src/geometry_test.cc)
+set(TEST_FILES src/test_main.cc src/vec_test.cc)
 
 add_subdirectory(src/third_party/googletest)
 

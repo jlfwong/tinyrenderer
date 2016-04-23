@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "geometry.h"
+#include "vec.h"
 
-TEST(VectorTest, ConstructorsAndAccessors) {
+TEST(VecTest, ConstructorsAndAccessors) {
     auto v1 = Vec2i(1, 2);
     auto v2 = Vec3i(1, 2, 3);
     EXPECT_EQ(1, v1.x());
@@ -11,7 +11,7 @@ TEST(VectorTest, ConstructorsAndAccessors) {
     EXPECT_EQ(3, v2.z());
 }
 
-TEST(VectorTest, DotProduct) {
+TEST(VecTest, DotProduct) {
     EXPECT_EQ(1 * 2 + 3 * 5, Vec2i(1, 3).dot(Vec2i(2, 5)));
     EXPECT_EQ(1 * 2 + 3 * 5 + 7 * 9, Vec3i(1, 3, 7).dot(Vec3i(2, 5, 9)));
 

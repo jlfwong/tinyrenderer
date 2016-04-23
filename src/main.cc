@@ -5,7 +5,8 @@
 
 #include "sdl_context_2d.h"
 #include "third_party/tiny_obj_loader.h"
-#include "polygon3D.h"
+#include "vec.h"
+#include "mesh.h"
 
 int main(int argc, char* args[]) {
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -31,41 +32,15 @@ int main(int argc, char* args[]) {
 
     tinyobj::LoadObj(shapes, materials, err, "data/bunny.obj");
 
-    std::vector<Polygon3D> faces;
-
-    for (auto const& shape : shapes) {
-        Uint32 index_offset = 0;
-        for (auto const& n_vertices_in_face : shape.mesh.num_vertices) {
-
-            std::vector<Point3D> points_in_face;
-
-            for (auto index_in_face = 0;
-                     index_in_face < n_vertices_in_face;
-                     index_in_face++) {
-
-                auto vertex_index = index_offset + index_in_face;
-                auto position_index = shape.mesh.indices[vertex_index];
-
-                points_in_face.push_back(Point3D(
-                    shape.mesh.positions[3 * position_index + 0],
-                    shape.mesh.positions[3 * position_index + 1],
-                    shape.mesh.positions[3 * position_index + 2]));
-            }
-
-            // TODO(jlfwong): Lots of avoidable superfluous copying happening here
-            faces.push_back(Polygon3D(points_in_face));
-
-            index_offset += n_vertices_in_face;
-        }
-    }
+    // TODO(jlfwong): Deal with multiple meshes in the same .obj file
+    Mesh mesh = Mesh(shapes[0]);
 
     SdlContext2D context(width, height);
 
-    for (auto& face : faces) {
-        auto points = face.points();
-        for (auto i = 0; i < points.size(); i++) {
-            auto from = points[i];
-            auto to = points[(i + 1) % points.size()];
+    for (auto& face : mesh.faces()) {
+        for (auto i = 0; i < face.Size(); i++) {
+            auto from = face[i];
+            auto to = face[(i + 1) % face.Size()];
 
             auto scale = 4;
 
