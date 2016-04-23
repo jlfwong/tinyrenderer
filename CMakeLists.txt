@@ -4,7 +4,7 @@ project(tinyrenderer)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
-    src/main.cc src/point3d.h src/point3d.cpp src/sdl_context_2d.cc src/sdl_context_2d.h src/third_party/tiny_obj_loader.cc src/third_party/tiny_obj_loader.h src/polygon3D.cc src/polygon3D.h)
+    src/main.cc src/point3d.h src/point3d.cpp src/sdl_context_2d.cc src/sdl_context_2d.h src/third_party/tiny_obj_loader.cc src/third_party/tiny_obj_loader.h src/polygon3D.cc src/polygon3D.h src/geometry.cc src/geometry.h)
 
 add_executable(tinyrenderer ${SOURCE_FILES})
 

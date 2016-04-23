@@ -13,7 +13,7 @@ void SdlContext2D::Line(int x0, int y0, int x1, int y1, Uint32 color) {
         std::swap(x0, y0);
         std::swap(x1, y1);
     }
-    const double derr = std::abs(1.0 * y1 - y0) / (x1 - x0);
+    const double delta_err = std::abs(1.0 * y1 - y0) / (x1 - x0);
     double err = 0.0;
 
     int y = y0;
@@ -23,7 +23,7 @@ void SdlContext2D::Line(int x0, int y0, int x1, int y1, Uint32 color) {
         } else {
             SetColor(x, y, color);
         }
-        err += derr;
+        err += delta_err;
         if (err > 0.5) {
             y += (y1 > y0 ? 1 : -1);
             err -= 1.0;

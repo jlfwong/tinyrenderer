@@ -10,8 +10,8 @@
 int main(int argc, char* args[]) {
     SDL_Init(SDL_INIT_EVERYTHING);
 
-    const Uint32 width = 640;
-    const Uint32 height = 480;
+    const Uint32 width = 1024;
+    const Uint32 height = 768;
 
     SDL_Window* window = SDL_CreateWindow("Hello World",
                                           SDL_WINDOWPOS_CENTERED,
@@ -67,12 +67,12 @@ int main(int argc, char* args[]) {
             auto from = points[i];
             auto to = points[(i + 1) % points.size()];
 
-            auto scale = 3;
+            auto scale = 4;
 
             auto x0 = scale * from.x() * width + width / 2;
-            auto y0 = -scale * from.y() * height + height / 2;
+            auto y0 = -scale * from.y() * height + height;
             auto x1 = scale * to.x() * width + width / 2;
-            auto y1 = -scale * to.y() * height + height / 2;
+            auto y1 = -scale * to.y() * height + height;
 
             context.Line(x0, y0, x1, y1, 0xFFFF0000);
         }
