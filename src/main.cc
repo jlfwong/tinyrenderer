@@ -38,9 +38,9 @@ int main(int argc, char* args[]) {
     SdlContext2D context(width, height);
 
     for (auto& face : mesh.faces()) {
-        for (auto i = 0; i < face.Size(); i++) {
+        for (auto i = 0; i < face.size(); i++) {
             auto from = face[i];
-            auto to = face[(i + 1) % face.Size()];
+            auto to = face[(i + 1) % face.size()];
 
             auto scale = 4;
 

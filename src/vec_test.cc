@@ -2,13 +2,13 @@
 #include "vec.h"
 
 TEST(VecTest, ConstructorsAndAccessors) {
-    auto v1 = Vec2i(1, 2);
-    auto v2 = Vec3i(1, 2, 3);
-    EXPECT_EQ(1, v1.x());
-    EXPECT_EQ(2, v1.y());
-    EXPECT_EQ(1, v2.x());
-    EXPECT_EQ(2, v2.y());
-    EXPECT_EQ(3, v2.z());
+    Vec2i v2i(1, 2);
+    Vec3i v3i(1, 2, 3);
+    EXPECT_EQ(1, v2i.x());
+    EXPECT_EQ(2, v2i.y());
+    EXPECT_EQ(1, v3i.x());
+    EXPECT_EQ(2, v3i.y());
+    EXPECT_EQ(3, v3i.z());
 }
 
 TEST(VecTest, DotProduct) {
@@ -17,4 +17,19 @@ TEST(VecTest, DotProduct) {
 
     EXPECT_DOUBLE_EQ(1.5 * 2.5 + 3.5 * 5.5, Vec2f(1.5, 3.5).dot(
             Vec2f(2.5, 5.5)));
+}
+
+TEST(VecTest, ImplicitConversion) {
+    Vec2f v2f(1.7, 1.2);
+    Vec3f v3f(1.7, 1.2, 2.1);
+
+    Vec2i v2i(v2f);
+    Vec3i v3i(v3f);
+
+    EXPECT_EQ(2, v2i.x());
+    EXPECT_EQ(1, v2i.y());
+
+    EXPECT_EQ(2, v3i.x());
+    EXPECT_EQ(1, v3i.y());
+    EXPECT_EQ(2, v3i.z());
 }

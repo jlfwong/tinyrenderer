@@ -36,6 +36,9 @@ protected:
 
 template <typename T> class Vec2 : public Vec<2, T> {
 public:
+    // For converting between Vec2i and Vec2f
+    template <typename U> Vec2(const Vec2<U>&);
+
     Vec2(T x, T y) {
         data_[0] = x;
         data_[1] = y;
@@ -50,6 +53,9 @@ private:
 
 template <typename T> class Vec3 : public Vec<3, T> {
 public:
+    // For converting between Vec3i and Vec3f
+    template <typename U> Vec3(const Vec3<U>&);
+
     Vec3(T x, T y, T z) {
         data_[0] = x;
         data_[1] = y;
