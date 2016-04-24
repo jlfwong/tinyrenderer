@@ -1,5 +1,7 @@
 #include "sdl_context_2d.h"
 
+// TODO(jlfwong): Add simple tests for this using Google Mock and subclassing
+// SdlContext2D to over-ride SetColor.
 void SdlContext2D::Line(int x0, int y0, int x1, int y1, Uint32 color) {
     bool is_steep = std::abs(1.0 * y1 - y0) > std::abs(1.0 * x1 - x0);
 
