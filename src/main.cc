@@ -38,20 +38,22 @@ int main(int argc, char* args[]) {
     SdlContext2D context(width, height);
 
     for (auto& face : mesh.faces()) {
-        for (auto i = 0; i < face.size(); i++) {
-            auto from = face[i];
-            auto to = face[(i + 1) % face.size()];
+        // Lazily assume for now that all faces are triangularized.
+        assert(face.size() == 3);
+        auto scale = 4;
 
-            auto scale = 4;
+        auto x0 = scale * face[0].x() * width + width / 2;
+        auto y0 = -scale * face[0].y() * height + height;
 
-            auto x0 = scale * from.x() * width + width / 2;
-            auto y0 = -scale * from.y() * height + height;
-            auto x1 = scale * to.x() * width + width / 2;
-            auto y1 = -scale * to.y() * height + height;
+        auto x1 = scale * face[1].x() * width + width / 2;
+        auto y1 = -scale * face[1].y() * height + height;
 
-            context.Line(x0, y0, x1, y1, 0xFFFF0000);
-        }
+        auto x2 = scale * face[2].x() * width + width / 2;
+        auto y2 = -scale * face[2].y() * height + height;
 
+        context.FillTriangle(x0, y0, x1, y1, x2, y2,
+                             (rand() | 0xFF000000));
+        // context.Line(x0, y0, x1, y1, 0xFFFF0000);
     }
 
     SDL_Event windowEvent;

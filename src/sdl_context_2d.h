@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cassert>
+#include "vec.h"
 
 class SdlContext2D {
 public:
@@ -25,7 +26,19 @@ public:
         pixels_[y * width_ + x] = color;
     };
 
+    // Draw a line from (x0, y0) to (x1, y1) in the specified color.
     void Line(int x0, int y0, int x1, int y1, Uint32 color);
+
+    // Fill an axis aligned rectangle with opposing corners at (x0, y0) and
+    // (x1, y1);
+    void FillRect(float x0, float y0, float x1, float y1, Uint32 color);
+
+    // Fill the triangle defined the three distinct points (x0, y0), (x1, y1),
+    // (x2, y2);
+    void FillTriangle(float x0, float y0,
+                      float x1, float y1,
+                      float x2, float y2,
+                      Uint32 color);
 
     void Paint(SDL_Texture* texture) {
         SDL_UpdateTexture(texture, NULL, pixels_, width_ * sizeof(Uint32));
