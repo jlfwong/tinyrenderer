@@ -18,7 +18,7 @@ public:
 class MeshFace : Face {
 public:
     virtual const Vec3f& operator[](const size_t i) const override {
-        return *points_[i];
+        return *(points_[i]);
     }
 
     virtual const size_t size() const override {
