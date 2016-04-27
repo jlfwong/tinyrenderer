@@ -86,6 +86,8 @@ void SdlContext2D::FillTriangle(float x0, float y0,
         FillRect(x0, y0, x1, y1, color);
     } else {
         for (int y = y_low; y < y_mid; y++) {
+            // Linearly interpolate the x coordinate for each side of the line
+            // segment
             float x_a = x0 + (x1 - x0) * (y - y0) / (y1 - y0);
             float x_b = x0 + (x2 - x0) * (y - y0) / (y2 - y0);
             FillRect(x_a, y, x_b, y, color);

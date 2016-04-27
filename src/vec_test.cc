@@ -19,6 +19,13 @@ TEST(VecTest, DotProduct) {
             Vec2f(2.5, 5.5)));
 }
 
+TEST(VecTest, CrossProduct) {
+    Vec3i cross = Vec3i(1, 0, 0).cross(Vec3i(0, 1, 0));
+    EXPECT_EQ(0, cross.x());
+    EXPECT_EQ(0, cross.y());
+    EXPECT_EQ(1, cross.z());
+}
+
 TEST(VecTest, ImplicitConversion) {
     Vec2f v2f(1.7, 1.2);
     Vec3f v3f(1.7, 1.2, 2.1);

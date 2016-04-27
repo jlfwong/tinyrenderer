@@ -1,8 +1,8 @@
 #include <cstdlib>
 #include <cassert>
 
-#ifndef TINYRENDERER_GEOMETRY_H
-#define TINYRENDERER_GEOMETRY_H
+#ifndef TINYRENDERER_VEC_H
+#define TINYRENDERER_VEC_H
 
 // General definition for a mathematical vector class.
 //
@@ -44,8 +44,8 @@ public:
         data_[1] = y;
     }
 
-    const T& x() const { return data_[0]; }
-    const T& y() const { return data_[1]; }
+    T x() const { return data_[0]; }
+    T y() const { return data_[1]; }
 
 private:
     using Vec<2, T>::data_;
@@ -62,9 +62,11 @@ public:
         data_[2] = z;
     }
 
-    const T& x() const { return data_[0]; }
-    const T& y() const { return data_[1]; }
-    const T& z() const { return data_[2]; }
+    T x() const { return data_[0]; }
+    T y() const { return data_[1]; }
+    T z() const { return data_[2]; }
+
+    Vec3<T> cross(const Vec3<T>&) const;
 
 private:
     using Vec<3, T>::data_;

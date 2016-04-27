@@ -51,6 +51,10 @@ int main(int argc, char* args[]) {
         auto x2 = scale * face[2].x() * width + width / 2;
         auto y2 = -scale * face[2].y() * height + height;
 
+        // TODO(jlfwong): Replace this will support for real textures
+        const float Ka = 0.9;  // ambient
+        const float Ks = 0.2;  // specular
+
         context.FillTriangle(x0, y0, x1, y1, x2, y2,
                              (rand() | 0xFF000000));
         // context.Line(x0, y0, x1, y1, 0xFFFF0000);
