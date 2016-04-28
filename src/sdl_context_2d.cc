@@ -43,10 +43,16 @@ void SdlContext2D::FillRect(float x0, float y0, float x1, float y1,
     if (y1 < y0) {
         std::swap(y1, y0);
     }
-    for (float y = y0; y <= y1; y++) {
-        for (float x = x0; x <= x1; x++) {
-            SetColor(static_cast<int>(x + 0.5f), static_cast<int>(y + 0.5f),
-                     color);
+
+    int y_low = static_cast<int>(std::ceil(y0));
+    int y_high = static_cast<int>(std::floor(y1));
+
+    int x_low = static_cast<int>(std::ceil(x0));
+    int x_high = static_cast<int>(std::floor(x1));
+
+    for (int y = y_low; y <= y_high; y++) {
+        for (int x = x_low; x <= x_high; x++) {
+            SetColor(x, y, color);
         }
     }
 }
