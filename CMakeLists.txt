@@ -21,7 +21,7 @@ target_link_libraries(tinyrenderer ${SDL2_LIBRARIES})
 # Unit Tests
 ##############
 
-set(TEST_FILES src/test_main.cc src/vec_test.cc)
+set(TEST_FILES src/test_main.cc src/vec_test.cc src/mesh_test.cc)
 
 add_subdirectory(src/third_party/googletest)
 
