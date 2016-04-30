@@ -11,6 +11,7 @@
 class Face {
 public:
     virtual const Vec3f& operator[](const size_t i) const = 0;
+    virtual const Vec3f& normal() const = 0;
     virtual const size_t size() const = 0;
 };
 
@@ -21,12 +22,17 @@ public:
         return *(points_[i]);
     }
 
+    virtual const Vec3f &normal() const override {
+        return normal_;
+    }
+
     virtual const size_t size() const override {
         return points_.size();
     }
 
 private:
     std::vector<const Vec3f*> points_;
+    Vec3f normal_;
     friend class Mesh;
 };
 

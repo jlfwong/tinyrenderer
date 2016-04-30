@@ -27,6 +27,9 @@ Mesh::Mesh(const tinyobj::shape_t& shape) : name_(shape.name) {
             face.points_.push_back(&positions_[position_index]);
         }
 
+        face.normal_ = (face[1] - face[0]).cross(
+                            face[2] - face[1]);
+
         faces_.push_back(face);
 
         index_offset += n_vertices_in_face;

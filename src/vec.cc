@@ -1,3 +1,4 @@
+#include <cmath>
 #include "vec.h"
 
 // Efficient converters between float and int variants for convenience
@@ -17,6 +18,30 @@ template <typename T> Vec3<T> Vec3<T>::cross(const Vec3<T>& b) const {
             a.z() * b.x() - a.x() * b.z(),
             a.x() * b.y() - a.y() * b.x()
     );
+};
+
+template <> const bool Vec<2, int, Vec2<int>>::operator==(const Vec2<int>& other) const {
+    return data_[0] == other[0] &&
+           data_[1] == other[1];
+};
+template <> const bool Vec<3, int, Vec3<int>>::operator==(const Vec3<int>& other) const {
+    return data_[0] == other[0] &&
+           data_[1] == other[1] &&
+           data_[2] == other[2];
+};
+
+const double float_eq(float a, float b) {
+    return std::abs(a - b) < 1e-6;
+}
+
+template <> const bool Vec<2, float, Vec2<float>>::operator==(const Vec2<float>& other) const {
+    return float_eq(data_[0], other[0]) &&
+           float_eq(data_[1], other[1]);
+};
+template <> const bool Vec<3, float, Vec3<float>>::operator==(const Vec3<float>& other) const {
+    return float_eq(data_[0], other[0]) &&
+           float_eq(data_[1], other[1]) &&
+           float_eq(data_[2], other[2]);
 };
 
 // Explicit instantiations

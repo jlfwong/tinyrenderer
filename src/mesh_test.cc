@@ -28,17 +28,35 @@ f  2  6  8
 f  2  8  4
 )cube";
 
-TEST(MeshTest, LoadingFromObj) {
-    std::vector<tinyobj::shape_t> shapes;
-    std::vector<tinyobj::material_t> materials;
-    std::string err;
-    std::stringstream ss(SIMPLE_CUBE);
-    tinyobj::MaterialFileReader mr("data");
+class MeshTest : public ::testing::Test {
+protected:
+    virtual void SetUp() {
+        std::vector<tinyobj::shape_t> shapes;
+        std::vector<tinyobj::material_t> materials;
+        std::string err;
+        std::stringstream ss(SIMPLE_CUBE);
+        tinyobj::MaterialFileReader mr("data");
 
-    tinyobj::LoadObj(shapes, materials, err, ss, mr);
+        tinyobj::LoadObj(shapes, materials, err, ss, mr);
 
-    Mesh m(shapes[0]);
+        cube_mesh = new Mesh(shapes[0]);
+    }
 
-    EXPECT_EQ("cube", m.name());
-    EXPECT_EQ(12, m.faces().size());  // 16 because faces are triangularized
+    virtual void TearDown() {
+        delete cube_mesh;
+    }
+
+    Mesh* cube_mesh;
+};
+
+TEST_F(MeshTest, NameSet) {
+    EXPECT_EQ("cube", cube_mesh->name());
+}
+
+TEST_F(MeshTest, FaceCount) {
+    EXPECT_EQ(12, cube_mesh->faces().size());  // 16 because faces are triangularized
+}
+
+TEST_F(MeshTest, FaceNormal) {
+    EXPECT_EQ(Vec3f(0, 0, -1), cube_mesh->faces()[0].normal());
 }

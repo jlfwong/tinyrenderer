@@ -1,5 +1,7 @@
 #include <cstdlib>
 #include <cassert>
+#include <iostream>
+#include <cmath>
 
 #ifndef TINYRENDERER_VEC_H
 #define TINYRENDERER_VEC_H
@@ -9,7 +11,14 @@
 // You probably don't want to use this directly. See the type aliases
 // for Vec2f, Vec2i, Vec3f, etc. at the bottom of this file.
 
-template <size_t DIM, typename T> class Vec {
+// TODO(jlfwong); The inclusion of VecT in the template arguments here makes
+// this thing an abomination. It's necessary in order to make subtraction and
+// normalized() return Vec2<T> and Vec3<T> instead of Vec<2, T>, and Vec<3, T>.
+// We care about this, because e.g. v.cross() is only defined on Vec3, not Vec2.
+//
+// There are *probably* more sensible ways of dealing with this (even code
+// dupe is probably more reasonable than using CRTP for this.
+template <size_t DIM, typename T, typename VecT> class Vec {
 public:
     Vec() {
         for (size_t i = 0; i < DIM; i++) {
@@ -22,7 +31,9 @@ public:
         return data_[i];
     }
 
-    const T dot(Vec<DIM, T> other) const {
+    const bool operator==(const VecT& other) const;
+
+    const T dot(const VecT& other) const {
         T ret = T();
         for (size_t i = 0; i < DIM; i++) {
             ret += data_[i] * other[i];
@@ -30,11 +41,48 @@ public:
         return ret;
     }
 
+    VecT operator-(const VecT& other) const {
+        VecT ret;
+        for (size_t i = 0; i < DIM; i++) {
+            ret.data_[i] = data_[i] - other[i];
+        }
+        return ret;
+    };
+
+    VecT normalized() const {
+        // This method won't work very well when T is int, but hopefully
+        // nobody will try to do that...
+
+        // TODO(jlfwong): This could run into overflow, but let's just hope not?
+        T mag_squared = T();
+        for (size_t i = 0; i < DIM; i++) {
+            mag_squared += data_[i] * data_[i];
+        }
+        T mag = sqrt(mag_squared);
+        VecT ret;
+        for (size_t i = 0; i < DIM; i++) {
+            ret.data_[i] = data_[i] / mag;
+        }
+        return ret;
+    };
+
 protected:
     T data_[DIM];
 };
 
-template <typename T> class Vec2 : public Vec<2, T> {
+template <size_t DIM, typename T, typename VecT> std::ostream& operator<<(
+        std::ostream& os, const Vec<DIM, T, VecT>& v) {
+    os << "Vec<" << DIM << "," << typeid(T).name() << ">(";
+    for (size_t i = 0; i < DIM; i++) {
+        if (i) {
+            os << ", ";
+        }
+        os << v[i];
+    }
+    os << ")";
+};
+
+template <typename T> class Vec2 : public Vec<2, T, Vec2<T> > {
 public:
     // For converting between Vec2i and Vec2f
     template <typename U> Vec2(const Vec2<U>&);
@@ -44,14 +92,20 @@ public:
         data_[1] = y;
     }
 
+    Vec2() : Vec2(0, 0) {}
+
     T x() const { return data_[0]; }
     T y() const { return data_[1]; }
 
 private:
-    using Vec<2, T>::data_;
+    using Vec<2, T, Vec2<T> >::data_;
+
+    // Holy crap I can't believe you're allowed to do this.
+    // Allows base class to access private members of derived class
+    friend Vec<2, T, Vec2<T> >;
 };
 
-template <typename T> class Vec3 : public Vec<3, T> {
+template <typename T> class Vec3 : public Vec<3, T, Vec3<T> > {
 public:
     // For converting between Vec3i and Vec3f
     template <typename U> Vec3(const Vec3<U>&);
@@ -62,6 +116,8 @@ public:
         data_[2] = z;
     }
 
+    Vec3() : Vec3(0, 0, 0) {}
+
     T x() const { return data_[0]; }
     T y() const { return data_[1]; }
     T z() const { return data_[2]; }
@@ -69,7 +125,18 @@ public:
     Vec3<T> cross(const Vec3<T>&) const;
 
 private:
-    using Vec<3, T>::data_;
+    using Vec<3, T, Vec3<T> >::data_;
+    friend Vec<3, T, Vec3<T> >;
+};
+
+template <typename T> std::ostream& operator<<(
+        std::ostream& os, const Vec2<T>& v) {
+    os << static_cast<Vec<2, T, Vec2<T> > >(v);
+};
+
+template <typename T> std::ostream& operator<<(
+        std::ostream& os, const Vec3<T>& v) {
+    os << static_cast<Vec<3, T, Vec3<T> > >(v);
 };
 
 

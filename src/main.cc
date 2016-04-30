@@ -5,7 +5,6 @@
 
 #include "sdl_context_2d.h"
 #include "third_party/tiny_obj_loader.h"
-#include "vec.h"
 #include "mesh.h"
 
 int main(int argc, char* args[]) {
