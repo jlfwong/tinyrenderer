@@ -24,11 +24,12 @@ Mesh::Mesh(const tinyobj::shape_t& shape) : name_(shape.name) {
             auto vertex_index = index_offset + index_in_face;
             auto position_index = indices[vertex_index];
 
+
             face.points_.push_back(&positions_[position_index]);
         }
 
         face.normal_ = (face[1] - face[0]).cross(
-                            face[2] - face[1]);
+                            face[2] - face[1]).normalized();
 
         faces_.push_back(face);
 

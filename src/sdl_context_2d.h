@@ -19,6 +19,11 @@ public:
         delete[] pixels_;
     };
 
+
+    void Clear() {
+        memset(pixels_, 0, width_ * height_ * sizeof(Uint32));
+    }
+
     void SetColor(int x, int y, Uint32 color) {
         if (x < 0 || x >= width_ || y < 0 || y >= height_) {
             return;

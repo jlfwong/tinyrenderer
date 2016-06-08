@@ -54,9 +54,11 @@ TEST_F(MeshTest, NameSet) {
 }
 
 TEST_F(MeshTest, FaceCount) {
-    EXPECT_EQ(12, cube_mesh->faces().size());  // 16 because faces are triangularized
+    EXPECT_EQ(12, cube_mesh->faces().size());  // 12 because faces are triangularized
 }
 
 TEST_F(MeshTest, FaceNormal) {
     EXPECT_EQ(Vec3f(0, 0, -1), cube_mesh->faces()[0].normal());
+    EXPECT_EQ(Vec3f(0, 0, -1), cube_mesh->faces()[1].normal());
+    EXPECT_EQ(Vec3f(-1, 0, 0), cube_mesh->faces()[2].normal());
 }
